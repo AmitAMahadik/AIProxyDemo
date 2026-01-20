@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BCB01EB62F1EACA2002494CA /* AIProxy in Frameworks */ = {isa = PBXBuildFile; productRef = BCB01EB52F1EACA2002494CA /* AIProxy */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		BCB01EA62F1EAC42002494CA /* AIProxy Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AIProxy Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCB01EB62F1EACA2002494CA /* AIProxy in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = "AIProxy Demo";
 			packageProductDependencies = (
+				BCB01EB52F1EACA2002494CA /* AIProxy */,
 			);
 			productName = "AIProxy Demo";
 			productReference = BCB01EA62F1EAC42002494CA /* AIProxy Demo.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = BCB01E9D2F1EAC42002494CA;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BCB01EB42F1EACA2002494CA /* XCRemoteSwiftPackageReference "AIProxySwift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BCB01EA72F1EAC42002494CA /* Products */;
 			projectDirPath = "";
@@ -332,6 +341,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BCB01EB42F1EACA2002494CA /* XCRemoteSwiftPackageReference "AIProxySwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lzell/AIProxySwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.143.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BCB01EB52F1EACA2002494CA /* AIProxy */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BCB01EB42F1EACA2002494CA /* XCRemoteSwiftPackageReference "AIProxySwift" */;
+			productName = AIProxy;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BCB01E9E2F1EAC42002494CA /* Project object */;
 }

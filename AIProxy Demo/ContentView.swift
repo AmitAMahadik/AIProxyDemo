@@ -7,35 +7,52 @@
 
 import SwiftUI
 import AIProxy
-
-let openAIService = AIProxy.openAIService(partialKey: "v2|1bb98c48|gO7CG1rPMen7sVxe", serviceURL: "https://api.aiproxy.com/07603b96/2bbe7ff6" )
+import DeviceCheck
 
 struct ContentView: View {
     var body: some View {
         VStack {
             Button("Test OpenAI Service") {
                 Task {
-                    do {
-                        let requestBody = OpenAIChatCompletionRequestBody(
-                            model: "gpt-5.2",
-                            messages: [
-                                .system(content: .text("You are a friendly assistant")),
-                                .user(content: .text("hello world"))
-                            ],
-                            reasoningEffort: .noReasoning
-                        )
-                        
+                    let openAIService = AIProxy.openAIService(
+                        partialKey: "v2|1bb98c48|gO7CG1rPMen7sVxe",
+                        serviceURL: "https://api.aiproxy.com/07603b96/2bbe7ff6"
+                    )
+
+                    #if targetEnvironment(simulator)
+                    print("Running on simulator (DeviceCheck typically bypassed)")
+                    #else
+                    print("Running on physical device")
+                    print("DeviceCheck supported:", DCDevice.current.isSupported)
+                    if DCDevice.current.isSupported {
                         do {
-                            let response = try await openAIService.chatCompletionRequest(
-                                body: requestBody,
-                                secondsToWait: 120
-                            )
-                            print(response.choices.first?.message.content ?? "")
-                        } catch AIProxyError.unsuccessfulRequest(let statusCode, let responseBody) {
-                            print("Received \(statusCode) status code with response body: \(responseBody)")
+                            let tokenData = try await DCDevice.current.generateToken()
+                            print("DeviceCheck token length:", tokenData.base64EncodedString().count)
                         } catch {
-                            print("Could not create OpenAI chat completion: \(error)")
+                            print("DeviceCheck token generation failed:", error)
                         }
+                    }
+                    #endif
+
+                    let requestBody = OpenAIChatCompletionRequestBody(
+                        model: "gpt-5.2",
+                        messages: [
+                            .system(content: .text("You are a friendly assistant")),
+                            .user(content: .text("hello world"))
+                        ],
+                        reasoningEffort: .noReasoning
+                    )
+
+                    do {
+                        let response = try await openAIService.chatCompletionRequest(
+                            body: requestBody,
+                            secondsToWait: 120
+                        )
+                        print(response.choices.first?.message.content ?? "")
+                    } catch AIProxyError.unsuccessfulRequest(let statusCode, let responseBody) {
+                        print("Received \(statusCode) status code with response body: \(responseBody)")
+                    } catch {
+                        print("Could not create OpenAI chat completion: \(error)")
                     }
                 }
             }
